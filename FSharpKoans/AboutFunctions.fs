@@ -275,7 +275,11 @@ module ``03: Putting the Function into Functional Programming`` =
         i 3 |> should equal 16
         j 3 |> should equal 11
         k 3 |> should equal 17
+<<<<<<< HEAD
         l 3 |> should equal 46
+=======
+        l 3 |> should equal 32
+>>>>>>> 3eac4d06a4a6df36fb5372d2b3bda41638d82aec
 
     [<Test>]
     let ``27 <<, the 'backwards compose' operator`` () =
@@ -285,17 +289,17 @@ module ``03: Putting the Function into Functional Programming`` =
         let j = double << add5
         let k = double << double << add5
         let l = j << i
-        i 3 |> should equal __
-        j 3 |> should equal __
-        k 3 |> should equal __
-        l 3 |> should equal __
+        i 3 |> should equal 11
+        j 3 |> should equal 16
+        k 3 |> should equal 32
+        l 3 |> should equal 17
 
     [<Test>]
     let ``28 Unit is used when there is no return value for a function``() = 
         // sendData is a function which is invoked ONLY for its side-effects
         // It might do something, and then it gives back a unit value.
         let sendData data = ()
-        sendData "some data to send..." |> should equal ___ // ... don't overthink this one!
+        sendData "some data to send..." |> should equal () // ... don't overthink this one!
    
     [<Test>]
     let ``29 Unit, as an input, conveys no data`` () = 
