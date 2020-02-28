@@ -272,10 +272,10 @@ module ``03: Putting the Function into Functional Programming`` =
         let j = double >> add5
         let k = double >> double >> add5
         let l = j >> i
-        i 3 |> should equal __
-        j 3 |> should equal __
-        k 3 |> should equal __
-        l 3 |> should equal __
+        i 3 |> should equal 16
+        j 3 |> should equal 11
+        k 3 |> should equal 17
+        l 3 |> should equal 46
 
     [<Test>]
     let ``27 <<, the 'backwards compose' operator`` () =
@@ -354,9 +354,9 @@ module ``03: Putting the Function into Functional Programming`` =
             // print out the value of x
             printfn "%A" x
             x // return x
-        log 5 |> should equal __
-        ignore (log "blorp") |> should equal __
-        log 19.66 |> ignore |> should equal __
+        log 5 |> should equal 5
+        ignore (log "blorp") |> should equal "blorp"
+        log 19.66 |> ignore |> should equal 19.66
 
     [<Test>]
     let ``32 Partially specifying arguments (Part 1).`` () =
@@ -364,15 +364,15 @@ module ``03: Putting the Function into Functional Programming`` =
         // reuse functionality.  This technique is exceptionally flexible and often
         // seen in functional code, so you should try to understand it.
         let f animal noise = animal + " says " + noise
-        let kittehs = __ "cat"
-        __ "nyan" |> should equal "cat says nyan"
+        let kittehs = f "cat"
+        kittehs  "nyan" |> should equal "cat says nyan"
 
     [<Test>]
     let ``33 Partially specifying arguments (Part 2).`` () =
         // as above, but what do you do when the arguments aren't in the order
         // that you want them to be in?
         let f animal noise = animal + " says " + noise
-        let howl k = __ // <- multiple words on this line.  You MUST use `f`.
+        let howl k = f " says slash/crunch/snap"  // <- multiple words on this line.  You MUST use `f`.
         howl "dire wolf" |> should equal "dire wolf says slash/crunch/snap"
         howl "direr wolf" |> should equal "direr wolf says slash/crunch/snap"
 
