@@ -18,7 +18,7 @@ module ``06: Tuples`` =
     [<Test>]
     let ``02 Elements of a tuple can be different types`` () =
         let stuff = "Rivet", false, 22.5
-        stuff |> should equal ( "Rivert", false, 22.5)
+        stuff |> should equal  ("Rivet", false, 22.5)
 
     [<Test>]
     let ``03 Decompose a tuple using tuple pattern`` () =

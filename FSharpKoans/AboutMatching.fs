@@ -36,10 +36,10 @@ module ``04: Match expressions`` =
         | 100 -> ()
         | 19 -> ()
         | y ->
-            y |> should equal 213
-            x |> should equal 19
+            y |> should equal 19
+            x |> should equal 100
         y |> should equal 19
-        x |> should equal 19
+        x |> should equal 213
 
     [<Test>]
     let ``04 Match order in match expressions`` () =
@@ -59,7 +59,7 @@ module ``04: Match expressions`` =
             | 213 -> "Light"
         x |> should equal 213
         y |> should equal 19
-        z |> should equal 213
+        z |> should equal "Bite"
         a |> should equal "Light"
 
     [<Test>]

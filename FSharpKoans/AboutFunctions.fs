@@ -226,7 +226,7 @@ module ``03: Putting the Function into Functional Programming`` =
         let b x = x = 7.5
         a |> should be ofType<float -> float>
         b |> should be ofType<float -> bool>
-        a |>  __|> b |> should equal true
+        a |> __ |> b |> should equal true
 
     (*
         The backwards-pipe operator takes:
@@ -247,7 +247,7 @@ module ``03: Putting the Function into Functional Programming`` =
         let a x =
             x = 4
         not (a 4) |> should equal false
-        (__ __ a 4) |> should equal false // <-- put <| in one of the spaces to fill in
+        (not <| a 4) |> should equal false // <-- put <| in one of the spaces to fill in
 
     (*
         The compose operator takes:
@@ -275,11 +275,7 @@ module ``03: Putting the Function into Functional Programming`` =
         i 3 |> should equal 16
         j 3 |> should equal 11
         k 3 |> should equal 17
-<<<<<<< HEAD
-        l 3 |> should equal 46
-=======
         l 3 |> should equal 32
->>>>>>> 3eac4d06a4a6df36fb5372d2b3bda41638d82aec
 
     [<Test>]
     let ``27 <<, the 'backwards compose' operator`` () =
@@ -292,7 +288,7 @@ module ``03: Putting the Function into Functional Programming`` =
         i 3 |> should equal 11
         j 3 |> should equal 16
         k 3 |> should equal 32
-        l 3 |> should equal 17
+        l 3 |> should equal 32
 
     [<Test>]
     let ``28 Unit is used when there is no return value for a function``() = 
@@ -304,9 +300,9 @@ module ``03: Putting the Function into Functional Programming`` =
     [<Test>]
     let ``29 Unit, as an input, conveys no data`` () = 
         let sayHello () = "hello"
-        sayHello |> should be ofType<FILL_ME_IN>
-        sayHello () |> should be ofType<FILL_ME_IN>
-        sayHello () |> should equal __
+        sayHello |> should be ofType<unit -> string>
+        sayHello () |> should be ofType<string>
+        sayHello () |> should equal "hello"
 
     (*
     When we develop real systems, we often run into problems
@@ -337,12 +333,12 @@ module ``03: Putting the Function into Functional Programming`` =
         let divideBy10 n () =
             n / 10
         let deferred = divideBy10 700
-        divideBy10 |> should be ofType<FILL_ME_IN>
-        deferred |> should be ofType<FILL_ME_IN>
-        divideBy10 850 |> should be ofType<FILL_ME_IN>
-        deferred () |> should be ofType<FILL_ME_IN>
-        deferred () |> should equal __
-        divideBy10 6300 () |> should equal __
+        divideBy10 |> should be ofType<int -> unit -> int>
+        deferred |> should be ofType<unit -> int>
+        divideBy10 850 |> should be ofType<int>
+        deferred () |> should be ofType<unit -> int>
+        deferred () |> should equal 70
+        divideBy10 6300 () |> should equal 630
 
     (*
         Sometimes we want to do something purely for a side-effect
