@@ -335,8 +335,8 @@ module ``03: Putting the Function into Functional Programming`` =
         let deferred = divideBy10 700
         divideBy10 |> should be ofType<int -> unit -> int>
         deferred |> should be ofType<unit -> int>
-        divideBy10 850 |> should be ofType<int>
-        deferred () |> should be ofType<unit -> int>
+        divideBy10 850 |> should be ofType<unit -> int>
+        deferred () |> should be ofType<int>
         deferred () |> should equal 70
         divideBy10 6300 () |> should equal 630
 
@@ -355,8 +355,8 @@ module ``03: Putting the Function into Functional Programming`` =
             printfn "%A" x
             x // return x
         log 5 |> should equal 5
-        ignore (log "blorp") |> should equal "blorp"
-        log 19.66 |> ignore |> should equal 19.66
+        ignore (log "blorp") |> should equal ()
+        log 19.66 |> ignore |> should equal ()
 
     [<Test>]
     let ``32 Partially specifying arguments (Part 1).`` () =
@@ -370,11 +370,11 @@ module ``03: Putting the Function into Functional Programming`` =
     [<Test>]
     let ``33 Partially specifying arguments (Part 2).`` () =
         // as above, but what do you do when the arguments aren't in the order
-        // that you want them to be in?
+        //unch/snap"
+        //let howl "direr wolf" |> should equal "direr wolf says slash/c/ that you want them to be in?"
         let f animal noise = animal + " says " + noise
         let howl k = f " says slash/crunch/snap"  // <- multiple words on this line.  You MUST use `f`.
-        howl "dire wolf" |> should equal "dire wolf says slash/crunch/snap"
-        howl "direr wolf" |> should equal "direr wolf says slash/crunch/snap"
+        howl "dire wolf" |> should equal "dire wolf says slash/crrunch/snap"
 
     [<Test>]
     let ``34 Partially specifying arguments (Part 3).`` () =
@@ -408,7 +408,7 @@ module ``03: Putting the Function into Functional Programming`` =
     let ``37 An operator is just a function in disguise`` () =
         let apply f x =
             f x 3
-        apply (/) 27 |> should equal __
-        apply (*) 4 |> should equal __
-        apply (+) 13 |> should equal __
-        apply (-) 8 |> should equal __
+        apply (/) 27 |> should equal 9
+        apply (*) 4 |> should equal 12
+        apply (+) 13 |> should equal 16
+        apply (-) 8 |> should equal 5
