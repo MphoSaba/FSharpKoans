@@ -37,7 +37,7 @@ module ``04: Match expressions`` =
         | 19 -> ()
         | y ->
             y |> should equal 19
-            x |> should equal 100
+            x |> should equal 213
         y |> should equal 19
         x |> should equal 213
 
@@ -60,7 +60,7 @@ module ``04: Match expressions`` =
         x |> should equal 213
         y |> should equal 19
         z |> should equal "Bite"
-        a |> should equal "Light"
+        a |> should equal "Trite"
 
     [<Test>]
     let ``05 Using a mapping function`` () =
