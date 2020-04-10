@@ -48,9 +48,10 @@ module ``01: About Testing`` =
     [<Test>]
     let ``01 How this works`` () = // In F#, any sequence of characters between `` marks can be identifiers.  ``This is a long method name`` is way better than ThisIsALongMethodName !
         let expected_value = 1 + 1
-        let actual_value = 2 //start by changing this line
-        actual_value |> should equal expected_value
+        let actual_value = expected_value //start by changing this line
+        actual_value |> should equal 2
    
     // Easy, right? Now try one more.
     [<Test>]
-    let ``02 Fill in the values`` () = (1 + 1) |> should equal 2
+    let ``02 Fill in the values`` () = 
+        (1 + 1) |> should equal 2
