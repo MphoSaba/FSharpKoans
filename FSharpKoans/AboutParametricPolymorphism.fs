@@ -96,9 +96,9 @@ module ``08: Parametric polymorphism`` =
         // how do you write a generic type?
         a |> should be ofType<float*int>
         b |> should be ofType<float*int*bool>
-
-   (* type MyDiscriminatedUnion =
-    | Furoth 
+(*
+    type MyDiscriminatedUnion =
+    | Furoth:int
     | Fevi
     | Sxi _
 
