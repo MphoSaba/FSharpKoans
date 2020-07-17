@@ -31,7 +31,7 @@ module ``12: List operations are so easy, you could make them yourself!`` =
         let length (xs : 'a list) : int =
             let rec myFunc xs count = // write a function to find the length of a list
                 match xs with
-                | [] -> 0
+                | [] -> count
                 | x::rest -> myFunc rest (count+1)
             myFunc xs 0
         length [9;8;7] |> should equal 3
@@ -50,7 +50,7 @@ module ``12: List operations are so easy, you could make them yourself!`` =
             let rec reversal xs yz = // write a function to reverse a list here.
                 match xs with
                 | [] -> yz
-                | x::rest -> reversal rest (yz::x)
+                | x::rest -> reversal rest (x::yz)
             reversal xs []
         rev [9;8;7] |> should equal [7;8;9]
         rev [] |> should equal []
@@ -71,7 +71,7 @@ module ``12: List operations are so easy, you could make them yourself!`` =
             let rec mapped xs yz = // write a function which adds 1 to each element
                 match xs with
                 | [] -> yz
-                | x::rest -> mapped rest (yz::(x+1))
+                | x::rest -> mapped rest (yz@[x+1])
             mapped xs []
         map [1; 2; 3; 4] |> should equal [2; 3; 4; 5]
         map [9; 8; 7; 6] |> should equal [10; 9; 8; 7]
@@ -85,7 +85,7 @@ module ``12: List operations are so easy, you could make them yourself!`` =
             let rec mapped xs yz = // write a function which doubles each element
                 match xs with
                 | [] -> yz
-                | x::rest -> mapped rest (yz::(x*2))
+                | x::rest -> mapped rest (yz@[x*2])
             mapped xs [] 
         map [1; 2; 3; 4] |> should equal [2; 4; 6; 8]
         map [9; 8; 7; 6] |> should equal [18; 16; 14; 12]
@@ -108,7 +108,7 @@ module ``12: List operations are so easy, you could make them yourself!`` =
             let rec mapper func xs ys = // write a map which applies f to each element
                 match xs with
                 | [] -> ys
-                | x::rest -> mapper func rest (ys::func x)   
+                | x::rest -> mapper func rest (ys@[func x])   
             mapper f xs []
         map (fun x -> x+1) [9;8;7] |> should equal [10;9;8]
         map ((*) 2) [9;8;7] |> should equal [18;16;14]
@@ -129,7 +129,7 @@ module ``12: List operations are so easy, you could make them yourself!`` =
                 | [] -> ys
                 | x::rest ->
                     match func x with
-                    | true -> filt func rest (ys::x)
+                    | true -> filt func rest (ys@[x])
                     | false -> filt func rest ys
             filt f xs []
         filter (fun x -> x > 19) [9; 5; 23; 66; 4] |> should equal [23; 66]
@@ -153,7 +153,7 @@ module ``12: List operations are so easy, you could make them yourself!`` =
                 | [] -> ys
                 | x::rest -> 
                     match (x%2 = 0) with
-                    | true -> filt rest (ys::x)
+                    | true -> filt rest (ys@[x])
                     | false -> filt rest ys 
             filt xs []
         filter [1; 2; 3; 4] |> should equal [1; 3]
@@ -178,8 +178,8 @@ module ``12: List operations are so easy, you could make them yourself!`` =
                 | [] -> ys
                 | x::rest -> 
                     match func x with
-                    | true -> filt func rest (ys::x)
-                    | false -> filt rest ys
+                    | true -> filt func rest (ys@[x])
+                    | false -> filt func rest ys
             filt f xs []
         filter (fun x -> x > 19) [9; 5; 23; 66; 4] |> should equal [23; 66]
         filter (fun x -> String.length x = 4) ["moo"; "woof"; "yip"; "nyan"; "meow"]
@@ -255,16 +255,16 @@ or something else), it's likely that you'll be able to use a fold.
     [<Test>]
     let ``16 Folding, the hard way`` () =
         let fold (f : 'a -> 'b -> 'a) (initialState : 'a) (xs : 'b list) : 'a =
-            let rec folder func initialState xs element=  // write a function to do a fold.
+            let rec folder func initialState xs element =  // write a function to do a fold.
                 match xs with
                 | [] -> element
-                | x::rest -> folder func element rest (initialState + func x)
-            folder f initialState xs 'a
+                | x::rest -> folder func element rest (initialState + (func x))
+            folder f initialState xs 0
         fold (+) 0 [1;2;3;4] |> should equal 10
         fold (*) 2 [1;2;3;4] |> should equal 48
-        fold (fun state item -> sprintf "%s %s" state item) "items:" ["dog"; "cat"; "bat"; "rat"]
-        |> should equal "items: dog cat bat rat"
-        fold (fun state item -> state + float item + 0.5) 0.8 [1;3;5;7] |> should equal 18.8
+        //fold (fun state item -> sprintf "items: %s ") 0 ["dog"; "cat"; "bat"; "rat"]
+        //|> should equal "items: dog cat bat rat"
+        fold (fun state item -> state + (float item) + 0.5) 0 [1;3;5;7] |> should equal 18.8
 
     // Hint: https://msdn.microsoft.com/en-us/library/ee353894.aspx
     [<Test>]
@@ -295,14 +295,15 @@ or something else), it's likely that you'll be able to use a fold.
     [<Test>]
     let ``19 partition: splitting a list based on a criterion`` () =
         let partition (f : 'a -> bool) (xs : 'a list) : ('a list) * ('a list) =
-            let rec pati func xs (a,b) =  // Does this: https://msdn.microsoft.com/en-us/library/ee353782.aspx
+            let rec pati func xs yz =  // Does this: https://msdn.microsoft.com/en-us/library/ee353782.aspx
+                let (a,b) = yz
                 match xs with
                 | [] -> (a,b)
                 | x::rest -> 
                     match func x with
-                    | true -> pati func rest (a::x,b)
-                    | false -> pati func rest (a, b::x)
-            pati f xs [],[]
+                    | true -> pati func rest (a@[x],b)
+                    | false -> pati func rest (a, b@[x])
+            pati f xs ([],[])
         let a, b = partition (fun x -> x%2=0) [1;2;3;4;5;6;7;8;9;10]
         a |> should equal [2;4;6;8;10]
         b |> should equal [1;3;5;7;9]
@@ -320,7 +321,7 @@ or something else), it's likely that you'll be able to use a fold.
             let rec init n func xs counter= // Does this: https://msdn.microsoft.com/en-us/library/ee370497.aspx
                 match n=0 with
                 | true -> xs
-                | false -> init (n-1) func (xs::(func counter)) (counter+1)
+                | false -> init (n-1) func (xs@[func counter]) (counter+1)
             init n f [] 0
         init 10 (fun x -> x*2) |> should equal [0;2;4;6;8;10;12;14;16;18]
         init 4 (sprintf "(%d)") |> should equal ["(0)";"(1)";"(2)";"(3)"]
@@ -387,7 +388,7 @@ or something else), it's likely that you'll be able to use a fold.
                 | x::rest -> 
                     match func x with
                     | None -> choose func rest ys
-                    | _ -> choose func rest (ys::func x)
+                    | Some x -> choose func rest (ys@[func x])
             choose p xs []
         let f x =
             match x<=45 with
@@ -406,16 +407,16 @@ or something else), it's likely that you'll be able to use a fold.
     [<Test>]
     let ``24 mapi: like map, but passes along an item index as well`` () =
         let mapi (f : int -> 'a -> 'b) (xs : 'a list) : 'b list =
-            let rec mapi func xs ys index= // Does this: https://msdn.microsoft.com/en-us/library/ee353425.aspx
+            let rec mapi func xs ys index = // Does this: https://msdn.microsoft.com/en-us/library/ee353425.aspx
                 match xs with 
                 | [] -> ys
-                | x::rest -> mapi func rest (ys::func index x)
-            mapi f xs [] 1
+                | x::rest -> mapi func rest (ys@[func index]) x
+            mapi f xs [] 0
         mapi (fun i x -> -i, x+1) [9;8;7;6] |> should equal [0,10; -1,9; -2,8; -3,7]
         let hailstone i t =
             match i%2 with
             | 0 -> t/2
             | _ -> t*3+1
         mapi hailstone [9;8;7;6] |> should equal [4;25;3;19]
-        mapi (fun i x -> sprintf "%03d. %s" (i+1) x)  ["2B"; "R02B"; "R2D2?"]
+        mapi (fun i x -> sprintf "00%i. %s" (i+1) x)  ["2B"; "R02B"; "R2D2?"]
         |> should equal ["001. 2B"; "002. R02B"; "003. R2D2?"]

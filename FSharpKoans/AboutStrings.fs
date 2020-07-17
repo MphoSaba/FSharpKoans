@@ -1,5 +1,6 @@
 ﻿namespace FSharpKoans
 open NUnit.Framework
+open System
 
 module ``11: String manipulation`` =
     [<Test>]
@@ -93,7 +94,7 @@ module ``11: String manipulation`` =
 
     [<Test>]
     let ``14 String formatting: Multiple format specifiers`` () =
-        let result = sprintf "%i out of %i is %d, or (%s) %i percent" 3 5 0.6 "in other words" 60
+        let result = sprintf "%i out of %i is %f, (%s) %i percent" 3 5 0.6 "in other words" 60
         result |> should equal "3 out of 5 is 0.6, or (in other words) 60 percent."
 
    // But that's not all! See the full set of formatting capabilities here:
@@ -106,7 +107,7 @@ module ``11: String manipulation`` =
         let s = "  Dr Phil, PhD, MD, MC, Medicine Man  "
         let ``first index of 'P'`` = s.IndexOf("P")
         let ``last index of 'P'`` = s.LastIndexOf("P")
-        let ``lowercase version`` = s.toUpper()
+        let ``lowercase version`` = s.ToLower()
         let ``without surrounding space`` = s.Trim(" ")
         ``first index of 'P'`` |> should equal 5
         ``last index of 'P'`` |> should equal 11

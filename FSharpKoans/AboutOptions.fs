@@ -1,6 +1,7 @@
 ﻿namespace FSharpKoans
 open NUnit.Framework
 open FsUnitTyped
+open System
 
 (*
 In F#, we tend to use options instead of exceptions for error-handling.
@@ -66,7 +67,7 @@ module ``09: Exploring types, options, and results`` =
     [<Test>]
     let ``04 Parsing a string safely`` () =
         let parse (s:string) =
-            match System.Int32.TryParse s with
+            match System.Int32.TryParse(s, s) with
             | false -> None // <-- fill in the match cases
             | _ -> Some s
         parse "25" |> should equal (Some 25)
@@ -78,7 +79,7 @@ module ``09: Exploring types, options, and results`` =
       let f n =
          match getSurname n with
          | None -> "[no surname]" // <-- write a bunch of good match cases
-         | _ -> getSurname n
+         | Some a -> a
       f "Anubis" |> should equal "[no surname]"
       f "Niccolo Machiavelli" |> should equal "Machiavelli"
       f "Mara Jade" |> should equal "Jade"
@@ -92,10 +93,10 @@ module ``09: Exploring types, options, and results`` =
         let f n m =
             match n<0.0, m=0.0 with
             | true, _ -> Error NegativeNumberSupplied
-            | _, true -> Erro DivisionByZero
+            | _, true -> Error DivisionByZero
             | _ ->
                 // 'sqrt' is the square-root function
                 Ok (sqrt n / m)
-        f -6.0 2.5 |> shouldEqual __
+        f -6.0 2.5 |> shouldEqual  (Error NegativeNumberSupplied)
         f 144.0 2.0 |> shouldEqual (Ok 6.0)
         f 7.3 0.0 |> shouldEqual (Error DivisionByZero)

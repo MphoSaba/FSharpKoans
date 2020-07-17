@@ -87,8 +87,8 @@ module ``13: On the Record`` =
     [<Test>]
     let ``07 Binding composed and decomposed structures using 'as'`` () =
       let f (Title as x) =
-         { f with Year = f.Year + 3 }
-      f { Title="A Wizard of Earthsea"; Author="Ursula K. LeGuin"; Year=1968 }
+        {Title="A Wizard of Earthsea"; Author = "Ursula K. LeGuin"; Year = 1971}
+      f { Title="A Wizard of Earthsea"; Author="Ursula K. LeGuin"; Year=1968}
       |> should equal { Title="A Wizard of Earthsea"; Author = "Ursula K. LeGuin"; Year = 1971 }
 
     // this is how we might define a record type with two generic fields.

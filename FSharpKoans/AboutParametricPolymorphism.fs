@@ -96,22 +96,22 @@ module ``08: Parametric polymorphism`` =
         // how do you write a generic type?
         a |> should be ofType<float*int>
         b |> should be ofType<float*int*bool>
-(*
-    type MyDiscriminatedUnion =
-    | Furoth:int
-    | Fevi
-    | Sxi _
+
+    (*type MyDiscriminatedUnion =
+    | Furoth
+    | Fevi 
+    | Sxi
 
     [<Test>]
     let ``05 Creating a generic discriminated union (Part 2).`` () =
         // You need to edit the definition of MyDiscriminatedUnion first!  It's just above this test.
-        let a = __
-        let b = __
-        let c = __
-        let d = __
+        let a = Furoth
+        let b = Sxi
+        let c = Furoth
+        let d = Sxi true
         match a with
         | Furoth n -> n |> should equal 7
-        | __ -> Assert.Fail ()
+        | _ -> Assert.Fail ()
         match b with
         | Sxi x -> x |> should equal "bleh"
         | _ -> Assert.Fail ()
@@ -120,5 +120,5 @@ module ``08: Parametric polymorphism`` =
         | _ -> Assert.Fail ()
         match d with
         | Sxi y -> y |> should equal true
-        | _ -> Assert.Fail () 
-    *)
+        | _ -> Assert.Fail () *)
+    
